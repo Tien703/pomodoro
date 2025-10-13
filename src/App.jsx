@@ -8,20 +8,27 @@ function CountDown() {
   const intervalRef = useRef(null)
 
   //handle countdown
-  CountDown(()=>{
+  useEffect(()=>{
     if (isRunning) {
-
-     intervalRef.current = setInterval(() =>{
-      setTotalSeconds(prevSeconds => prevSeconds - 1);
-    },1000)
+      intervalRef.current = setInterval(() => {
+        setTotalSeconds(prevSeconds => prevSeconds - 1);
+      },1000);
+    } 
+    else if (!isRunning && intervalRef.current !==null) {
+      clearInterval(intervalRef.current)
     }
-  })
-  const handleStart = () => {
+    return () => {clearInterval(intervalRef)}
+  },[isRunning]);
+
+
+  const handleToogle = () =>{
+    setIsRunning(!isRunning)
   };
-  const handlePause = () =>{
-    clearInterval(handleStart);
-  }
-  //convert second to minute + second 
+  const handleReset = () =>{
+    setIsRunning(false)
+    setTotalSeconds(1500)
+  };
+    //convert second to minute + second 
   const formatTime = (totalSeconds) => {
     const minutes = Math.floor(totalSeconds / 60)
     const seconds = totalSeconds - minutes*60
@@ -33,8 +40,8 @@ function CountDown() {
   return (
     <div>
       <div>{formatTime(totalSeconds)}</div>
-      <button onClick={handleStart}>start</button>
-      <button onClick={handlePause}>pause</button>
+      <div>{!isRunning ? ( <button onClick={handleToogle}>start</button>) : (<button onClick={handleToogle}>pause</button>)}</div>
+      <button onClick={handleReset}>Reset</button>
     </div>
   )
 
