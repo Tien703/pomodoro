@@ -28,6 +28,7 @@ function CountDown() {
     setIsRunning(false)
     setTotalSeconds(1500)
   };
+
     //convert second to minute + second 
   const formatTime = (totalSeconds) => {
     const minutes = Math.floor(totalSeconds / 60)
@@ -55,4 +56,3 @@ function App() {
 }
 
 export default App
-
