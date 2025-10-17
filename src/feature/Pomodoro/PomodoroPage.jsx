@@ -38,6 +38,7 @@ export function Pomodoro() {
 
   return (
     <div>
+      <title>pomodoro</title>
       <div>{formatTime(totalSeconds)}</div>
       <div>{!isRunning ? ( <button onClick={handleToogle}>start</button>) : (<button onClick={handleToogle}>pause</button>)}</div>
       <button onClick={handleReset}>Reset</button>
