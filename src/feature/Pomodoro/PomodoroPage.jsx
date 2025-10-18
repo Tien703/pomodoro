@@ -39,6 +39,7 @@ export function Pomodoro() {
   return (
     <div>
       <title>pomodoro</title>
+      <a href="/">homepage</a>
       <div>{formatTime(totalSeconds)}</div>
       <div>{!isRunning ? ( <button onClick={handleToogle}>start</button>) : (<button onClick={handleToogle}>pause</button>)}</div>
       <button onClick={handleReset}>Reset</button>
