@@ -1,4 +1,6 @@
+import { useAuth } from './context/AuthConText'
 export function HomePage() {
+  const {user, logout} = useAuth();
   return (
     <div className="header">
       <title>hompage</title>
