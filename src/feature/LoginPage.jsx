@@ -1,13 +1,18 @@
 
-import React, { useState} from "react"
-import {signInWithPopup, signOut} from "firebase/auth"
+import React, { useState, useEffect} from "react"
+import {signInWithPopup, signOut, onAuthStateChanged} from "firebase/auth"
 import {auth, provider } from '../firebase/config' 
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 export function LoginPage() {
 	const [user, setUser] = useState(null);
-	const [user1] = useAuth(); 
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+		setUser(currentUser);
+		});
+		return () => unsubscribe();
+	}, []);
 
 	const handleLogin = async() => {
 		try {
@@ -26,10 +31,10 @@ export function LoginPage() {
 
 	return (
 		<div>
-			{user1?(
-			<button onClick={handleLogout}>Log out </button>
+			{user ? (
+			<button onClick={handleLogout}>Log out</button>
 			):(
-				console.log(user),
+				console.log(user?.displayName),
 			<button onClick={handleLogin}> Sign in with google</button>
 			)}
 		</div>

@@ -1,6 +1,10 @@
+import './Navbar.css'
 export function Navbar() {
 return (
-  <nav>
-    <a href="/">home</a>
+  <nav className="navbar">
+    <div className="nav-left">
+      <a href="/">home</a>
+      <a href="/LoginPage">profile</a>
+    </div>
   </nav>
 )};

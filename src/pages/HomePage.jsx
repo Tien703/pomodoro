@@ -1,7 +1,7 @@
 import { useAuth } from "../context/AuthContext"
 
 export function HomePage() {
-  const {user, logout} = useAuth();
+  const {user} = useAuth();
   return (
     <div className="header">
       <title>hompage</title>
@@ -9,13 +9,10 @@ export function HomePage() {
         {user ? (
           <>
             <h1>hello, {user?.displayName}</h1>
-
-            <a href="/loginPage">profile</a>
-
           </>
         ):(
+            <p></p>
 
-          <a href="/loginPage">profile</a>
         )}
       </div>
 
