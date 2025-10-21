@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
+import { updateStudyTime } from '../firebase/db';
+import {useAuth} from '../context/AuthContext'
+
 
 export function Pomodoro() {
+  const {currentUser} = useAuth();
   const [totalSeconds, setTotalSeconds] = useState(1500);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null)
@@ -18,7 +22,6 @@ export function Pomodoro() {
     return () => {clearInterval(intervalRef)}
   },[isRunning]);
 
-
   const handleToogle = () =>{
     setIsRunning(!isRunning)
   };
@@ -34,7 +37,12 @@ export function Pomodoro() {
     const formatMinutes = String(minutes).padStart(2,'0') 
     const formatSeconds = String(seconds).padStart(2,'0') 
     return `${formatMinutes}:${formatSeconds}`;
-  }
+  };
+
+  const updateUserStat = async () =>{
+    const duration = 25*60
+    if
+  };
 
   return (
     <div>
