@@ -1,16 +1,27 @@
-import { useAuth } from "../context/AuthConText"
-export function HomePage() {
-  const { user, logout} = useAuth();
+import { useAuth } from "../context/AuthContext"
 
+export function HomePage() {
+  const {user, logout} = useAuth();
   return (
     <div className="header">
       <title>hompage</title>
-      <h1>welcom, {user?.displayName}</h1>
+      <div> 
+        {user ? (
+          <>
+            <h1>hello, {user?.displayName}</h1>
+
+            <a href="/loginPage">profile</a>
+
+          </>
+        ):(
+
+          <a href="/loginPage">profile</a>
+        )}
+      </div>
 
       <a href="/pomodoro">pomodoro</a>
+
       <br/>
-      <a href="/loginPage">login</a>
-      <h1>Hello world</h1>
     </div>
 )
 }
