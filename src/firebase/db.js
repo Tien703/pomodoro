@@ -5,18 +5,12 @@ export const updateStudyTime = async (id,newDuration) => {
   try {
     const timeSpended = doc(db,"timespend", id);
     await updateDoc(timeSpended,{totalTime: newDuration});
-    console.log("Timer updated");
+    console.log("Timer updated"); 
   }catch(error) {
     console.log("Error updateting time:", error)
   }
 };
 
-/**
- * Increment the total time spent by a user
- * @param {string} uid - The id of the user
- * @param {number} seconds - The number of seconds to add
- * @returns {Promise<void>} A promise that resolves when the update is successful
- */
 export const addPomodoroTime= async(uid, seconds) =>{
   const userRef = doc(db, "users", uid);
   try {
@@ -36,5 +30,7 @@ export const ininitUser = async (uid) =>{
 
 
 export const getUserTotalTime = async (uid) =>{
-  const userRef
-}
+
+
+
+
