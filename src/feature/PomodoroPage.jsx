@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
-import { updateStudyTime } from '../firebase/db';
+import { UpdateTotalTime } from '../firebase/PomodoroDB';
 import {useAuth} from '../context/AuthContext'
 
 
 export function Pomodoro() {
-  const {currentUser} = useAuth();
+  const {user} = useAuth();
   const [totalSeconds, setTotalSeconds] = useState(1500);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null)
+  const duration = 25*60
 
   //handle countdown
   useEffect(()=>{
@@ -23,6 +24,7 @@ export function Pomodoro() {
   },[isRunning]);
 
   const handleToogle = () =>{
+    UpdateTotalTime(user.uid, duration)
     setIsRunning(!isRunning)
   };
   const handleReset = () =>{
@@ -39,10 +41,9 @@ export function Pomodoro() {
     return `${formatMinutes}:${formatSeconds}`;
   };
 
-  const updateUserStat = async () =>{
-    const duration = 25*60
-    if
-  };
+
+
+  
 
   return (
     <div>
@@ -52,5 +53,4 @@ export function Pomodoro() {
       <button onClick={handleReset}>Reset</button>
     </div>
   )
-
 }
