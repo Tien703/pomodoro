@@ -7,6 +7,7 @@ return (
       <a href="/pomodoro"> pomodoro</a>
       <a href="/LoginPage"> profile</a>
       <a href='/stats'> report</a>
+      <a href='/todo'> todo </a>
     </div>
   </nav>
 )};
