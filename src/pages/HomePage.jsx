@@ -16,8 +16,6 @@ export function HomePage() {
         )}
       </div>
 
-      <a href="/pomodoro">pomodoro</a>
-      <a href="/stats">stat</a>
 
       <br/>
     </div>

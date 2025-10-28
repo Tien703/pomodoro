@@ -1,16 +1,16 @@
 import { updateDoc, doc, setDoc, getDoc } from "firebase/firestore";
-import { collection, getDocs, increment } from "firebase/firestore"
+import { increment } from "firebase/firestore"
 import { db } from "./config"
 
 export const UpdateTotalTime= async (uid, seconds) => {
-  const userRef = doc(db, "users", String(uid));
-  const snap = await getDoc(userRef);
+  const statsRef = doc(db,"users", String(uid));
+  const snap = await getDoc(statsRef);
   if (snap.exists()) {
-    await updateDoc(userRef, {
+    await updateDoc(statsRef, {
         totalTime: increment(seconds)
     });
   } else{
-    await setDoc(userRef,{
+    await setDoc(statsRef,{
         totalTime: seconds
     });
   }
@@ -18,16 +18,15 @@ export const UpdateTotalTime= async (uid, seconds) => {
 
 //get total time spend
 export const getUserTotalTime = async (uid) => {
-    const userRef = doc (db, "user", String(uid));
-    const snap = await getDoc(userRef)
-    if (snap.exists()) {
-        return snap.data().totalTime || 0;
-    } else{
-        return 0;
-    }
-
-
-
+    
+  const userRef = doc (db,"users", String(uid));
+  const snap = await getDoc(userRef)
+  if (snap.exists()) {
+      return snap.data().totalTime ;
+  } else{
+      return {totalTime: 0};
+  }
 }
+
 
 
