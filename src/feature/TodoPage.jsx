@@ -3,15 +3,15 @@ import { useEffect, useState } from "react";
 import { AddTask, RmTask, ShowTodo} from "../firebase/todoList";
 export function TodoPage() {
   const { user } = useAuth();
-  //Todo: ti nho sua cho nay dua task vao function handleadd cho gon 
   const [task, setTask] = useState("");
   const [todo, setTodo] = useState([]);
   //handle show todo list
   //then = async + await (setTodo())
   useEffect(()=>{
     if (!user) return;
-    ShowTodo(user.uid).then(setTodo);
-  },[user]);
+    const unsub = ShowTodo(user.uid,setTodo) ;
+    return () => unsub && unsub();
+  },[user,setTodo]);
   //add new task 
   const HanldeAdd = () => {
     if (!task.trim()) return; 
@@ -34,7 +34,7 @@ export function TodoPage() {
             {todo.map(t => (
               <li key={t.id}>
                 {t.text} 
-                <button onClick={HandleDelete(t.id)}>
+                <button onClick={()=>HandleDelete(t.id)}>
                   ❌
                 </button>
               </li>

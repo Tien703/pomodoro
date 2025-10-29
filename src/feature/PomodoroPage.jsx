@@ -23,7 +23,6 @@ export function Pomodoro() {
   },[isRunning]);
 
   const handleToogle = () =>{
-    UpdateTotalTime(user.uid, duration)
     setIsRunning(!isRunning)
   };
   const handleReset = () =>{

@@ -1,4 +1,4 @@
-import { collection, doc, addDoc, getDocs,deleteDoc, serverTimestamp, orderBy} from "firebase/firestore";
+import { collection, doc, addDoc, getDocs,deleteDoc, onSnapshot, serverTimestamp, orderBy} from "firebase/firestore";
 import { db } from "./config";
 import { query } from "firebase/firestore";
 
@@ -25,15 +25,19 @@ export const RmTask = async (uid, taskID) => {
   }
 };
 
-export const ShowTodo = async(uid)  => {
+export const ShowTodo =(uid, callback)  => {
   const q = query(
     collection(db, "users", uid, "todos"),
-    orderBy("createdAt","desc")
-  )
-  const querySnapShot = await getDocs(q);
-  const tasks = querySnapShot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  }));
-  return tasks;
-} 
+    orderBy("createdAt", "desc")
+  );
+  const unsub =  onSnapshot(q, (snapshot)=>{
+    const tasks = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    callback(tasks);
+  },(error)=>{
+    console.error("Error fetching todo list", error);
+  });
+  return unsub;
+}; 
