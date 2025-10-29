@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { UpdateTotalTime } from '../firebase/PomodoroDB';
-import {useAuth} from '../context/AuthContext'
 
 export function Pomodoro() {
-  const {user} = useAuth();
   const [totalSeconds, setTotalSeconds] = useState(1500);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null)
-  const duration = 25*60
+  const Duration = 25*60
 
   //handle countdown
   useEffect(()=>{
