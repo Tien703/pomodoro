@@ -3,7 +3,7 @@ import { increment } from "firebase/firestore"
 import { db } from "./config"
 
 export const UpdateTotalTime= async (uid, seconds) => {
-  const statsRef = doc(db,"users", String(uid));
+  const statsRef = doc(db,"users",uid);
   const snap = await getDoc(statsRef);
   if (snap.exists()) {
     await updateDoc(statsRef, {
