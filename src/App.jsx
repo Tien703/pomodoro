@@ -7,6 +7,7 @@ import {Layout} from './component/Layout'
 import './App.css'
 import { StatPage } from './feature/StatsPage'
 import { TodoPage } from './feature/TodoPage'
+import { Setting } from './feature/settingPage'
 
 
 function App() {
@@ -14,11 +15,12 @@ function App() {
     <AuthProvider>
       <Layout>
         <Routes>
-          <Route index element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/pomodoro" element={<Pomodoro />} />
-          <Route path="/loginPage"  element={<LoginPage/>}/>
-          <Route path="/stats" element={<StatPage/>}/>
-          <Route path='/todo' element={<TodoPage/>}/>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/stats" element={<StatPage />} />
+          <Route path="/todo" element={<TodoPage />} />
+          <Route path="/setting" element={<Setting />} />
         </Routes>
       </Layout>
     </AuthProvider>

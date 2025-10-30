@@ -2,63 +2,77 @@ import { useState, useEffect, useRef } from 'react'
 import { UpdateTotalTime } from '../firebase/PomodoroDB';
 import { useAuth } from '../context/AuthContext';
 
+/**
+ * Pomodoro component
+ * 
+ * This component will show a timer which will
+ * start at 25 minutes and will count down
+ * every second. When the timer reaches 0
+ * it will call UpdateTotalTime to update user's
+ * stat. The component will also have a start
+ * button, pause button and a reset button.
+ * When the start button is clicked, the timer
+ * will start counting down. When the pause
+ * button is clicked, the timer will stop
+ * counting down. When the reset button is
+ * clicked, the timer will reset to 25 minutes
+ * and the user's stat will not be updated.
+ * 
+ * @param {Object} user - The user object
+ * from the context.
+ * @returns {JSX.Element} - The Pomodoro component.
+ */
 export function Pomodoro() {
-  const [totalSeconds, setTotalSeconds] = useState(10);
-  const [isRunning, setIsRunning] = useState(false);
-  const {user} = useAuth()
-  const intervalRef = useRef(null)
-  const Duration = 25*60
+  const [remainingTime, setRemainingTime] = useState(25 * 60);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const { user } = useAuth();
+  const intervalRef = useRef(null);
+  const durationInSeconds = 25 * 60;
 
-  //handle countdown
-  useEffect(()=>{
-    if (isRunning && totalSeconds > 0) {
+  useEffect(() => {
+    if (isTimerRunning && remainingTime > 0) {
       intervalRef.current = setInterval(() => {
-        setTotalSeconds(prevSeconds => prevSeconds - 1);
-      },1000);
-    } 
-    else if (isRunning && totalSeconds ===0){
-      setIsRunning(false);
-    if (user && user.uid) {
-            // Chỉ gọi UpdateTotalTime nếu user và uid chắc chắn tồn tại
-            UpdateTotalTime(user.uid, Duration);
-          } else {
-            // Có thể log ra console để biết khi nào user chưa sẵn sàng
-            console.error("Lỗi: Không thể cập nhật thời gian vì user.uid không tồn tại.");
-          }      clearInterval(intervalRef.current);
-
-    }
-    else if (!isRunning && intervalRef.current !==null) {
-      clearInterval(intervalRef.current)
+        setRemainingTime((prevTime) => prevTime - 1);
+      }, 1000);
+    } else if (isTimerRunning && remainingTime === 0) {
+      setIsTimerRunning(false);
+      UpdateTotalTime(user.uid, durationInSeconds);
+    } else if (!isTimerRunning && intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
     }
     return () => {
-      
       clearInterval(intervalRef.current);
     };
-  },[user,isRunning, totalSeconds,Duration]);
+  }, [user, isTimerRunning, remainingTime, durationInSeconds]);
 
-  const handleToogle = () =>{
-    setIsRunning(!isRunning)
+  const handleToggle = () => {
+    setIsTimerRunning(!isTimerRunning);
   };
-  const handleReset = () =>{
-    setIsRunning(false)
-    setTotalSeconds(10)
+  const handleReset = () => {
+    setIsTimerRunning(false);
+    setRemainingTime(25 * 60);
   };
 
-    //convert second to minute + second 
-  const formatTime = (totalSeconds) => {
-    const minutes = Math.floor(totalSeconds / 60)
-    const seconds = totalSeconds - minutes*60
-    const formatMinutes = String(minutes).padStart(2,'0') 
-    const formatSeconds = String(seconds).padStart(2,'0') 
-    return `${formatMinutes}:${formatSeconds}`;
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds - minutes * 60;
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(seconds).padStart(2, '0');
+    return `${formattedMinutes}:${formattedSeconds}`;
   };
 
   return (
     <div>
-      <title>pomodoro</title>
-      <div>{formatTime(totalSeconds)}</div>
-      <div>{!isRunning ? ( <button onClick={handleToogle}>start</button>) : (<button onClick={handleToogle}>pause</button>)}</div>
+      <title>Pomodoro</title>
+      <div>{formatTime(remainingTime)}</div>
+      <div>
+        {!isTimerRunning ? (
+          <button onClick={handleToggle}>Start</button>
+        ) : (
+          <button onClick={handleToggle}>Pause</button>
+        )}
+      </div>
       <button onClick={handleReset}>Reset</button>
     </div>
-  )
+  );
 }

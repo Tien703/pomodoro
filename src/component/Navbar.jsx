@@ -8,6 +8,7 @@ return (
       <a href="/LoginPage"> profile</a>
       <a href='/stats'> report</a>
       <a href='/todo'> todo </a>
+      <a href='/setting'>setting</a>
     </div>
   </nav>
 )};
