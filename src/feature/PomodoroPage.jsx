@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { UpdateTotalTime } from '../firebase/PomodoroDB';
 import { useAuth } from '../context/AuthContext';
+import { useApp } from '../context/AppContext';
+
 
 /**
  * Pomodoro component
@@ -23,12 +25,17 @@ import { useAuth } from '../context/AuthContext';
  * @returns {JSX.Element} - The Pomodoro component.
  */
 export function Pomodoro() {
-  const [remainingTime, setRemainingTime] = useState(25 * 60);
+  const {pomoDuration}  = useApp();
+  const [remainingTime, setRemainingTime] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const { user } = useAuth();
   const intervalRef = useRef(null);
-  const durationInSeconds = 25 * 60;
-
+  useEffect(()=>{
+    const durationValue = Number(pomoDuration);
+    if (durationValue > 0) {
+      setRemainingTime(durationValue);
+    }
+  }, [pomoDuration])
   useEffect(() => {
     if (isTimerRunning && remainingTime > 0) {
       intervalRef.current = setInterval(() => {
@@ -36,21 +43,27 @@ export function Pomodoro() {
       }, 1000);
     } else if (isTimerRunning && remainingTime === 0) {
       setIsTimerRunning(false);
-      UpdateTotalTime(user.uid, durationInSeconds);
+      UpdateTotalTime(user.uid,remainingTime);
     } else if (!isTimerRunning && intervalRef.current !== null) {
       clearInterval(intervalRef.current);
     }
     return () => {
       clearInterval(intervalRef.current);
     };
-  }, [user, isTimerRunning, remainingTime, durationInSeconds]);
+  }, [user, isTimerRunning, remainingTime,pomoDuration]);
 
   const handleToggle = () => {
     setIsTimerRunning(!isTimerRunning);
+    if(pomoDuration){
+        console.log()
+    }
+    else{
+      console.log("no duration")
+    }
   };
   const handleReset = () => {
     setIsTimerRunning(false);
-    setRemainingTime(25 * 60);
+    setRemainingTime(pomoDuration);
   };
 
   const formatTime = (timeInSeconds) => {
