@@ -25,37 +25,36 @@ import { useApp } from '../context/AppContext';
  * @returns {JSX.Element} - The Pomodoro component.
  */
 export function Pomodoro() {
-  const {pomoDuration}  = useApp();
+  const { setting }  = useApp();
   const [remainingTime, setRemainingTime] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const { user } = useAuth();
   const intervalRef = useRef(null);
-  useEffect(()=>{
-    const durationValue = Number(pomoDuration);
-    if (durationValue > 0) {
-      setRemainingTime(durationValue);
-    }
-  }, [pomoDuration])
   useEffect(() => {
+    //interval to run count down
     if (isTimerRunning && remainingTime > 0) {
       intervalRef.current = setInterval(() => {
         setRemainingTime((prevTime) => prevTime - 1);
       }, 1000);
+    // update user's state when finished 1 session
     } else if (isTimerRunning && remainingTime === 0) {
       setIsTimerRunning(false);
+      console.log(setting.focusTime)
       UpdateTotalTime(user.uid,remainingTime);
+    // pause pomodoro
     } else if (!isTimerRunning && intervalRef.current !== null) {
       clearInterval(intervalRef.current);
     }
+    // clear interval prevent memory leak
     return () => {
       clearInterval(intervalRef.current);
     };
-  }, [user, isTimerRunning, remainingTime,pomoDuration]);
+  }, [user, isTimerRunning, remainingTime,setting.focusTime]);
 
   const handleToggle = () => {
-    setIsTimerRunning(!isTimerRunning);
-    if(pomoDuration){
-        console.log()
+    if(setting.focusTime){
+      setIsTimerRunning(!isTimerRunning);
+      console.log()
     }
     else{
       console.log("no duration")
@@ -63,7 +62,7 @@ export function Pomodoro() {
   };
   const handleReset = () => {
     setIsTimerRunning(false);
-    setRemainingTime(pomoDuration);
+    setRemainingTime(setting.focusTime);
   };
 
   const formatTime = (timeInSeconds) => {

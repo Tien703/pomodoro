@@ -6,7 +6,7 @@ import {useApp} from '../context/AppContext'
   -change pomodoro duration 
 */
 export function Setting () {
-  const {pomoDuration, setPomoDuration}= useApp()
+  const {setting, update_setting}= useApp()
   const {user}= useAuth()
   return (
     <div>
@@ -21,8 +21,8 @@ export function Setting () {
         <p></p>
 
     )}
-    <input type="text" name="duration" placeholder='duration' id="" onChange={(e) =>setPomoDuration(e.target.value)}/>
-    <button onClick={()=>console.log(pomoDuration)}>save</button>
+    <input type="number"  placeholder='duration' value={setting.focusTime} id="" onChange={(e) =>update_setting({focusTime:Number(e.target.value)})}/>
+    <button onClick={()=>console.log(setting.focusTime)}>save</button>
   </div>
     </div>
   )

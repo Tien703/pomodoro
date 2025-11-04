@@ -27,20 +27,20 @@ export const getUserTotalTime = async (uid) => {
   };
 };
 
-export const dailyCheckIn = async(uid, hours) => {
-  const activiesRef = doc(db, "user", uid);
-  const snap = getDoc(activiesRef);
-  const date = 
-  try {
-    await addDoc(collection(db, "users", uid, "activies", ), {
-      totalTimeSpent = 
-      date : serverTimestamp(),
-    });
-    console.log("add successfully");
-  } catch (err) {
-    console.error("failed to add task:", err);
-  };
-};
+//export const dailyCheckIn = async(uid, hours) => {
+//  const activiesRef = doc(db, "user", uid);
+//  const snap = getDoc(activiesRef);
+//  const date = 
+//  try {
+//    await addDoc(collection(db, "users", uid, "activies", ), {
+//      totalTimeSpent = 
+//      date : serverTimestamp(),
+//    });
+//    console.log("add successfully");
+//  } catch (err) {
+//    console.error("failed to add task:", err);
+//  };
+//};
 
 
 
