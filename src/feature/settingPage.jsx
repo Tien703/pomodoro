@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import { useAuth } from '../context/AuthContext';
-import {useApp} from '../context/AppContext'
+import { useAuth } from '../context/Authcontext';
+import {useApp} from '../context/Appcontext'
 
 /*setting:
   -change pomodoro duration 

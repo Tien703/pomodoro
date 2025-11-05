@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { UpdateTotalTime } from '../firebase/PomodoroDB';
 import { useAuth } from '../context/AuthContext';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context/Appcontext';
 
 
 /**
@@ -26,10 +26,20 @@ import { useApp } from '../context/AppContext';
  */
 export function Pomodoro() {
   const { setting }  = useApp();
-  const [remainingTime, setRemainingTime] = useState(0);
+  const [remainingTime, setRemainingTime] = useState(setting.focusTime);
+  useEffect(()=>{
+      setRemainingTime(setting.focusTime);
+  },[setting.focusTime])
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const { user } = useAuth();
   const intervalRef = useRef(null);
+  useEffect(() => {
+    if (!isTimerRunning){
+      console.log("Pomodoro detected new focusTime:", setting.focusTime);
+      setRemainingTime(setting.focusTime);
+    };
+}, [setting.focusTime, isTimerRunning]);
+
   useEffect(() => {
     //interval to run count down
     if (isTimerRunning && remainingTime > 0) {
