@@ -50,7 +50,7 @@ export function Pomodoro() {
     } else if (isTimerRunning && remainingTime === 0) {
       setIsTimerRunning(false);
       console.log(setting.focusTime)
-      UpdateTotalTime(user.uid,remainingTime);
+      UpdateTotalTime(user.uid,setting.focusTime);
     // pause pomodoro
     } else if (!isTimerRunning && intervalRef.current !== null) {
       clearInterval(intervalRef.current);

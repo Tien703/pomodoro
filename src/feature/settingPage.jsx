@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useAuth } from '../context/Authcontext';
+import { useAuth } from '../context/AuthContext';
 import {useApp} from '../context/Appcontext'
 
 /*setting:
@@ -12,7 +12,6 @@ export function Setting () {
     <div>
     <title>setting</title>
     <div>
-
     {user ? (
       <>
         <h1>hello, {user?.displayName}</h1>
