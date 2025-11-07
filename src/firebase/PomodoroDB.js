@@ -1,8 +1,6 @@
-import { updateDoc, doc, setDoc, getDocs, query, collection, getDoc} from "firebase/firestore";
-
+import { updateDoc, doc, setDoc, getDocs, collection, getDoc} from "firebase/firestore";
 import { increment } from "firebase/firestore"
 import { db } from "./config"
-import { DataConnectError } from "firebase/data-connect";
 
 export const UpdateTotalTime= async (uid, seconds) => {
   const id = new Date().toISOString().split("T")[0]
@@ -29,9 +27,11 @@ export const getUserTotalTime = async (uid) => {
     activiesSnap.forEach((doc) =>{
       const data = doc.data();
       totalTimeSpent += data.totalTime || 0;
-
     })
       return totalTimeSpent ;
-      
   };
 };
+//get weekly stat
+export const getUserWeaklyStat = async (uid) => {
+  
+}
