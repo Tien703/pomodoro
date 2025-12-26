@@ -1,1 +1,1 @@
-tired of stupid forest app, so i decided to create my own
+tired of  forest app, so i decided to create my own
